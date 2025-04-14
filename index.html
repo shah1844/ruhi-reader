@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruhi Book Reader</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; background-color: #f7f7f7; }
+    h1, h2, h3 { color: #2c3e50; }
+    .quote { font-style: italic; margin: 20px 0; }
+    .author { text-align: right; margin-bottom: 30px; }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 10px; }
+    select { padding: 6px; margin: 10px 0; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Ruhi Book Reader</h1>
+
+  <label for="bookSelect">Select Book:</label>
+  <select id="bookSelect">
+    <option value="Book 1">Book 1</option>
+    <option value="Book 2">Book 2</option>
+    <option value="Book 3">Book 3</option>
+    <option value="Book 4">Book 4</option>
+    <option value="Book 5">Book 5</option>
+    <option value="Book 6">Book 6</option>
+    <option value="Book 7">Book 7</option>
+  </select>
+
+  <label for="unitSelect">Select Unit:</label>
+  <select id="unitSelect">
+    <option value="Unit 1">Unit 1</option>
+    <option value="Unit 2">Unit 2</option>
+  </select>
+
+  <label for="sectionSelect">Select Section:</label>
+  <select id="sectionSelect">
+    <option value="Section 1">Section 1</option>
+    <option value="Section 2">Section 2</option>
+  </select>
+
+  <div id="content">
+    <h2>Book 1 → Unit 1 → Section 1</h2>
+
+    <div class="quote">
+      “The betterment of the world can be accomplished through pure and goodly deeds, through commendable and seemly conduct.”
+    </div>
+    <div class="author">—Bahá’u’lláh</div>
+
+    <h3>Discussion Questions:</h3>
+    <ul>
+      <li>What does Bahá’u’lláh mean by "pure and goodly deeds"?</li>
+      <li>How can our conduct contribute to the betterment of the world?</li>
+      <li>Share an example from your life or community.</li>
+    </ul>
+  </div>
+
+  <script>
+    const content = document.getElementById('content');
+
+    const data = {
+      "Book 1": {
+        "Unit 1": {
+          "Section 1": {
+            quote: "The betterment of the world can be accomplished through pure and goodly deeds, through commendable and seemly conduct.",
+            author: "Bahá’u’lláh",
+            questions: [
+              "What does Bahá’u’lláh mean by \\\"pure and goodly deeds\\\"?",
+              "How can our conduct contribute to the betterment of the world?",
+              "Share an example from your life or community."
+            ]
+          }
+        }
+      }
+    };
+
+    function updateContent() {
+      const book = document.getElementById('bookSelect').value;
+      const unit = document.getElementById('unitSelect').value;
+      const section = document.getElementById('sectionSelect').value;
+
+      const sectionData = data?.[book]?.[unit]?.[section];
+
+      if (!sectionData) {
+        content.innerHTML = `<h2>${book} → ${unit} → ${section}</h2><p>Content not available yet.</p>`;
+        return;
+      }
+
+      content.innerHTML = `
+        <h2>${book} → ${unit} → ${section}</h2>
+        <div class="quote">“${sectionData.quote}”</div>
+        <div class="author">—${sectionData.author}</div>
+        <h3>Discussion Questions:</h3>
+        <ul>
+          ${sectionData.questions.map(q => `<li>${q}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    document.getElementById('bookSelect').addEventListener('change', updateContent);
+    document.getElementById('unitSelect').addEventListener('change', updateContent);
+    document.getElementById('sectionSelect').addEventListener('change', updateContent);
+  </script>
+</body>
+</html>
